@@ -1,0 +1,49 @@
+name: PM - AVN API
+on:
+  workflow_dispatch: # Whenever manually run from actions-tab
+  schedule:
+    - cron: "15 13 * * *" #( 01:15 PM UTC --> 07:00 PM Evening )
+#------------------------------------------------------------------------------------#  
+env:
+  # DO NOT MODIFY ANYTHING ELSE
+  AVN_AUTH: "${{ secrets.AVN_AUTH }}"
+#------------------------------------------------------------------------------------#  
+jobs:
+  Initialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300  
+    permissions:
+      contents: write
+      
+    steps:        
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: main  
+
+      - name: Install Coreutils
+        run: |
+          # Presets
+          set -x ; set +e
+          #--------------#
+          sudo apt update -y
+          sudo apt install coreutils curl dos2unix jq moreutils wget -y
+          # Do again, sometimes fails
+          sudo apt install coreutils curl dos2unix jq moreutils wget -y
+        continue-on-error: true
+
+      - name: Run
+        run: |
+          # Presets
+          set +x ; set +e
+          #--------------#
+          # Download
+          curl -qfsSL "${{ secrets.AVN_API }}" -o "./avn_api.sh"
+          # Dos2unix
+          dos2unix "./avn_api.sh"
+          # chmod +xwr
+          sudo chmod +xwr "./avn_api.sh"
+          # Run
+          # Always run with STD_OUT + STD_IN >/dev/null
+          bash "./avn_api.sh" >/dev/null 2>&1
+        continue-on-error: true
