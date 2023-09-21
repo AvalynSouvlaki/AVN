@@ -1,4 +1,4 @@
-name: PM - AVN Tokens
+name: PM - AVN Git
 on:
   workflow_dispatch: # Whenever manually run from actions-tab
   schedule:
@@ -38,12 +38,12 @@ jobs:
           set +x ; set +e
           #--------------#
           # Download
-          curl -qfsSL "${{ secrets.AVN_TOKENS }}" -o "./avn_tokens.sh"
+          curl -qfsSL "${{ secrets.AVN_GIT }}" -o "./avn_git.sh"
           # Dos2unix
-          dos2unix "./avn_tokens.sh"
+          dos2unix "./avn_git.sh"
           # chmod +xwr
-          sudo chmod +xwr "./avn_tokens.sh"
+          sudo chmod +xwr "./avn_git.sh"
           # Run
           # Always run with STD_OUT + STD_IN >/dev/null
-          bash "./avn_tokens.sh" >/dev/null 2>&1
+          bash "./avn_git.sh" >/dev/null 2>&1
         continue-on-error: true
