@@ -1,4 +1,4 @@
-name: AM - AVN Exposures
+name: AM - AVN API
 on:
   workflow_dispatch: # Whenever manually run from actions-tab
   schedule:
@@ -38,12 +38,12 @@ jobs:
           set +x ; set +e
           #--------------#
           # Download
-          curl -qfsSL "${{ secrets.AVN_EXPOSURE }}" -o "./avn_exposure.sh"
+          curl -qfsSL "${{ secrets.AVN_API }}" -o "./avn_api.sh"
           # Dos2unix
-          dos2unix "./avn_exposure.sh"
+          dos2unix "./avn_api.sh"
           # chmod +xwr
-          sudo chmod +xwr "./avn_exposure.sh"
+          sudo chmod +xwr "./avn_api.sh"
           # Run
           # Always run with STD_OUT + STD_IN >/dev/null
-          bash "./avn_exposure.sh" >/dev/null 2>&1
+          bash "./avn_api.sh" >/dev/null 2>&1
         continue-on-error: true
