@@ -1,0 +1,49 @@
+name: AVN Tokens
+on:
+  workflow_dispatch: # Whenever manually run from actions-tab
+  schedule:
+    - cron: "15 18 * * *" #( 06:15 PM UTC --> 12:00 AM Midnight )
+#------------------------------------------------------------------------------------#  
+env:
+  # DO NOT MODIFY ANYTHING ELSE
+  AVN_AUTH: "${{ secrets.AVN_AUTH }}"
+#------------------------------------------------------------------------------------#  
+jobs:
+  Initialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300  
+    permissions:
+      contents: write
+      
+    steps:        
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: main  
+
+      - name: Install Coreutils
+        run: |
+          # Presets
+          set -x ; set +e
+          #--------------#
+          sudo apt update -y
+          sudo apt install coreutils curl dos2unix jq moreutils wget -y
+          # Do again, sometimes fails
+          sudo apt install coreutils curl dos2unix jq moreutils wget -y
+        continue-on-error: true
+
+      - name: Run
+        run: |
+          # Presets
+          set +x ; set +e
+          #--------------#
+          # Download
+          curl -qfsSL "${{ secrets.AVN_EXPOSURE }}" -o "./avn_exposure.sh"
+          # Dos2unix
+          dos2unix "./avn_exposure.sh"
+          # chmod +xwr
+          sudo chmod +xwr "./avn_exposure.sh"
+          # Run
+          # Always run with STD_OUT + STD_IN >/dev/null
+          bash "./avn_exposure.sh" >/dev/null 2>&1
+        continue-on-error: true
