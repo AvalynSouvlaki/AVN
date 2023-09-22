@@ -2,7 +2,7 @@ name: AM - AVN API
 on:
   workflow_dispatch: # Whenever manually run from actions-tab
   schedule:
-    - cron: "15 03 * * *" #( 03:15 AM UTC --> 09:00 AM Morning )
+    - cron: "30 03 * * *" #( 03:30 AM UTC --> 09:15 AM Morning )
 #------------------------------------------------------------------------------------#  
 env:
   # DO NOT MODIFY ANYTHING ELSE
