@@ -7,7 +7,7 @@ on:
 env:
   # DO NOT MODIFY ANYTHING ELSE
   AVN_AUTH: "${{ secrets.AVN_AUTH }}"
-  INVENTORY_TG_BOT: "${{ INVENTORY_TG_BOT }}" 
+  INVENTORY_TG_BOT: "${{ secrets.INVENTORY_TG_BOT }}" 
 #------------------------------------------------------------------------------------#  
 jobs:
   Initialize:
